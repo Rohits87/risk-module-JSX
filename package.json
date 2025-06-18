@@ -11,7 +11,6 @@
   "dependencies": {
     "@emotion/react": "latest",
     "@emotion/styled": "latest",
-    "@faker-js/faker": "latest",
     "@hookform/resolvers": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",

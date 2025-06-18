@@ -16,6 +16,10 @@ const theme = createTheme({
   },
 })
 
+export const metadata = {
+  generator: "v0.dev",
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -31,7 +35,3 @@ export default function RootLayout({ children }) {
 
 
 import './globals.css'
-
-export const metadata = {
-      generator: 'v0.dev'
-    };

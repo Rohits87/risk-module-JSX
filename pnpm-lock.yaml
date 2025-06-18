@@ -14,9 +14,6 @@ importers:
       '@emotion/styled':
         specifier: latest
         version: 11.14.0(@emotion/react@11.14.0(@types/react@18.0.0)(react@18.0.0))(@types/react@18.0.0)(react@18.0.0)
-      '@faker-js/faker':
-        specifier: latest
-        version: 9.8.0
       '@hookform/resolvers':
         specifier: latest
         version: 5.1.1(react-hook-form@7.58.1(react@18.0.0))
@@ -299,10 +296,6 @@ packages:
   '@eslint/eslintrc@1.4.1':
     resolution: {integrity: sha512-XXrH9Uarn0stsyldqDYq8r++mROmWRI1xKMXa640Bb//SY1+ECYX6VzT6Lcx5frD0V30XieqJ0oX9I2Xj5aoMA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-
-  '@faker-js/faker@9.8.0':
-    resolution: {integrity: sha512-U9wpuSrJC93jZBxx/Qq2wPjCuYISBueyVUGK7qqdmj7r/nxaxwW8AQDCLeRO7wZnjj94sh3p246cAYjUKuqgfg==}
-    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@floating-ui/core@1.7.1':
     resolution: {integrity: sha512-azI0DrjMMfIug/ExbBaeDVJXcY0a7EPvPjb2xAJPa4HeimBX+Z18HK8QQR3jb6356SnDDdxx+hinMLcJEDdOjw==}
@@ -3160,8 +3153,6 @@ snapshots:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
-
-  '@faker-js/faker@9.8.0': {}
 
   '@floating-ui/core@1.7.1':
     dependencies:

@@ -17,7 +17,6 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import Image from "next/image"
 
 const sidebarNavItems = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -43,7 +42,6 @@ const sidebarNavItems = [
     icon: CreditCard,
     isActiveRoot: "/admin/risk-profiles",
     subItems: [
-      // Highlight Risk Profiles under PG Management
       { href: "/admin/risk-profiles", label: "Risk Profiles" },
       { href: "/admin/pg-settings", label: "Gateway Settings" },
     ],
@@ -78,7 +76,9 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-sidebar text-sidebar-foreground p-4 space-y-6 hidden md:block print:hidden">
       <div className="px-2 py-1">
-        <Image src="/touras-logo.png" alt="Touras Logo" width={100} height={28} />
+        <div className="w-24 h-8 bg-primary/20 rounded flex items-center justify-center text-primary font-bold text-sm">
+          TOURAS
+        </div>
       </div>
       <nav>
         <Accordion type="multiple" className="w-full">
