@@ -19,7 +19,7 @@ import {
   masterNegativeBINsList,
   masterNegativeIPsList,
   masterNegativeDomainsList,
-} from "@/lib/actions"
+} from "@/lib/constants"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 import type React from "react"

@@ -34,7 +34,7 @@ import {
   ShieldX,
 } from "lucide-react"
 import type { Country, RiskProfile, RiskProfileStatus } from "@/lib/types"
-import { USER_ROLE } from "@/lib/actions"
+import { USER_ROLE } from "@/lib/constants"
 import { format } from "date-fns"
 import { useToast } from "@/components/ui/use-toast"
 import GlobalParameterModal from "./global-parameter-modal"
