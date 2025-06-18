@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form" // Removed useWatch as it's no longer needed for disabling
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -19,7 +19,7 @@ import {
   masterNegativeBINsList,
   masterNegativeIPsList,
   masterNegativeDomainsList,
-} from "@/lib/data"
+} from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/components/ui/use-toast"
 import type React from "react"
@@ -32,7 +32,6 @@ const positiveNumberOptional = z.coerce
   .optional()
   .or(z.literal(""))
 
-// Updated Zod schema: Removed conditional validation based on master list checkboxes
 const riskProfileSchema = z
   .object({
     profileName: z.string().min(3, "Profile name must be at least 3 characters").max(100),
@@ -160,7 +159,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
         toast({
           title: "No items found",
           description: "The uploaded file contains no valid items.",
-          variant: "warning",
         })
         return
       }
@@ -181,7 +179,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
           toast({
             title: "No New Countries",
             description: "No new valid countries found or all were already selected.",
-            variant: "info",
           })
         }
       } else {
@@ -236,62 +233,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
         data.retentionWindow && data.maxDeclineCount
           ? { retentionWindow: Number(data.retentionWindow), maxDeclineCount: Number(data.maxDeclineCount) }
           : undefined,
-      cardConfig: {
-        /* ... */
-      },
-      ipConfig: {
-        /* ... */
-      },
-      terminalConfig: {
-        /* ... */
-      },
-    }
-
-    parametersToSubmit.cardConfig = {
-      retentionDuration: data.cardConfig_retentionDuration ? Number(data.cardConfig_retentionDuration) : undefined,
-      maxDebitAmount: data.cardConfig_maxDebitAmount ? Number(data.cardConfig_maxDebitAmount) : undefined,
-      maxCreditAmount: data.cardConfig_maxCreditAmount ? Number(data.cardConfig_maxCreditAmount) : undefined,
-      minTransactionAmount: data.cardConfig_minTransactionAmount
-        ? Number(data.cardConfig_minTransactionAmount)
-        : undefined,
-      maxTransactionCount: data.cardConfig_maxTransactionCount
-        ? Number(data.cardConfig_maxTransactionCount)
-        : undefined,
-    }
-    parametersToSubmit.ipConfig = {
-      retentionDuration: data.ipConfig_retentionDuration ? Number(data.ipConfig_retentionDuration) : undefined,
-      maxTransactionCount: data.ipConfig_maxTransactionCount ? Number(data.ipConfig_maxTransactionCount) : undefined,
-    }
-    parametersToSubmit.terminalConfig = {
-      maxFloorLimitAmount: data.terminalConfig_maxFloorLimitAmount
-        ? Number(data.terminalConfig_maxFloorLimitAmount)
-        : undefined,
-      retentionDuration: data.terminalConfig_retentionDuration
-        ? Number(data.terminalConfig_retentionDuration)
-        : undefined,
-      maxFloorLimitTransactionCount: data.terminalConfig_maxFloorLimitTransactionCount
-        ? Number(data.terminalConfig_maxFloorLimitTransactionCount)
-        : undefined,
-      maxProcessingAmount: data.terminalConfig_maxProcessingAmount
-        ? Number(data.terminalConfig_maxProcessingAmount)
-        : undefined,
-      maxCreditProcessingAmount: data.terminalConfig_maxCreditProcessingAmount
-        ? Number(data.terminalConfig_maxCreditProcessingAmount)
-        : undefined,
-      enableAutoInactivate: data.terminalConfig_enableAutoInactivate,
-    }
-
-    if (Object.values(parametersToSubmit.cardConfig).every((val) => val === undefined))
-      delete parametersToSubmit.cardConfig
-    if (Object.values(parametersToSubmit.ipConfig).every((val) => val === undefined)) delete parametersToSubmit.ipConfig
-    if (
-      Object.values(parametersToSubmit.terminalConfig).every((val) => val === undefined || val === false) &&
-      parametersToSubmit.terminalConfig.enableAutoInactivate === false
-    ) {
-      const { enableAutoInactivate, ...restOfTerminalConfig } = parametersToSubmit.terminalConfig
-      if (Object.values(restOfTerminalConfig).every((val) => val === undefined) && enableAutoInactivate === false) {
-        delete parametersToSubmit.terminalConfig
-      }
     }
 
     const finalData = {
@@ -305,7 +246,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
     toast({
       title: "Profile Submitted",
       description: `Risk profile "${data.profileName}" has been submitted for approval.`,
-      variant: "default",
     })
     router.push("/admin/risk-profiles")
   }
@@ -399,7 +339,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
                 <CardDescription>Define common risk rules for this profile.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Negative Countries */}
                 <FormField
                   control={form.control}
                   name="useMasterNegativeCountries"
@@ -444,7 +383,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
                 />
                 <Separator />
 
-                {/* Negative BINs */}
                 <FormField
                   control={form.control}
                   name="useMasterNegativeBINs"
@@ -489,7 +427,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
                 />
                 <Separator />
 
-                {/* Negative IPs */}
                 <FormField
                   control={form.control}
                   name="useMasterNegativeIPs"
@@ -534,7 +471,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
                 />
                 <Separator />
 
-                {/* Negative Domains */}
                 <FormField
                   control={form.control}
                   name="useMasterNegativeDomains"
@@ -596,7 +532,6 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
             </Card>
           </TabsContent>
 
-          {/* Other tabs (Card, IP, Terminal Config) remain unchanged */}
           <TabsContent value="card">
             <Card>
               <CardHeader>
@@ -634,6 +569,7 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
               </CardContent>
             </Card>
           </TabsContent>
+
           <TabsContent value="ip">
             <Card>
               <CardHeader>
@@ -655,6 +591,7 @@ export default function CreateRiskProfileForm({ countries, merchants }: CreateRi
               </CardContent>
             </Card>
           </TabsContent>
+
           <TabsContent value="terminal">
             <Card>
               <CardHeader>

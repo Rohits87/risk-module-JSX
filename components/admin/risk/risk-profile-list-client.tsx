@@ -34,7 +34,7 @@ import {
   ShieldX,
 } from "lucide-react"
 import type { Country, RiskProfile, RiskProfileStatus } from "@/lib/types"
-import { USER_ROLE } from "@/lib/data"
+import { USER_ROLE } from "@/lib/actions"
 import { format } from "date-fns"
 import { useToast } from "@/components/ui/use-toast"
 import GlobalParameterModal from "./global-parameter-modal"
@@ -78,7 +78,6 @@ export default function RiskProfileListClient({ initialProfiles, countries }: Ri
   }, [filteredProfiles])
 
   useEffect(() => {
-    // Clear selection if the view/filters change significantly
     setSelectedProfileIds([])
   }, [searchTerm, statusFilter, showPendingOnly])
 
@@ -104,7 +103,7 @@ export default function RiskProfileListClient({ initialProfiles, countries }: Ri
     let reason: string | null = null
     if (action === "reject") {
       reason = prompt(`Enter reason for rejecting ${selectedProfileIds.length} profile(s):`)
-      if (reason === null) return // User cancelled
+      if (reason === null) return
     }
 
     const newStatus = action === "approve" ? "Active" : "Rejected"
@@ -188,9 +187,9 @@ export default function RiskProfileListClient({ initialProfiles, countries }: Ri
   const getStatusBadgeVariant = (status: RiskProfileStatus) => {
     switch (status) {
       case "Active":
-        return "success"
+        return "default"
       case "Pending Approval":
-        return "warning"
+        return "secondary"
       case "Inactive":
         return "secondary"
       case "Rejected":
@@ -378,7 +377,7 @@ export default function RiskProfileListClient({ initialProfiles, countries }: Ri
                     />
                   </TableHead>
                 ) : (
-                  <TableHead className="w-[50px]"></TableHead> // Placeholder for alignment
+                  <TableHead className="w-[50px]"></TableHead>
                 )}
                 <TableHead>Profile Name</TableHead>
                 <TableHead>Creator</TableHead>
@@ -405,7 +404,7 @@ export default function RiskProfileListClient({ initialProfiles, countries }: Ri
                       ) : null}
                     </TableCell>
                   ) : (
-                    <TableCell></TableCell> // Placeholder for alignment
+                    <TableCell></TableCell>
                   )}
                   <TableCell className="font-medium">{profile.profileName}</TableCell>
                   <TableCell>{profile.creator}</TableCell>

@@ -1,11 +1,11 @@
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import CreateRiskProfileForm from "@/components/admin/risk/create-risk-profile-form"
-import { getCountries, getMerchants } from "@/lib/data"
+import { getCountriesAction, getMerchantsAction } from "@/lib/actions"
 
 export default async function NewRiskProfilePage() {
-  const countries = await getCountries()
-  const merchants = await getMerchants()
+  const countries = await getCountriesAction()
+  const merchants = await getMerchantsAction()
 
   return (
     <div className="space-y-6">

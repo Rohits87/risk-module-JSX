@@ -2,12 +2,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PlusCircle, ArrowLeft } from "lucide-react"
 import RiskProfileListClient from "@/components/admin/risk/risk-profile-list-client"
-import { getRiskProfiles, getCountries, getMerchants } from "@/lib/data" // Mock data functions
+import { getRiskProfilesAction, getCountriesAction } from "@/lib/actions"
 
 export default async function RiskProfilesPage() {
-  const profiles = await getRiskProfiles()
-  const countries = await getCountries() // Needed for potential display or context, though not directly on list
-  const merchants = await getMerchants() // Same as countries
+  const profiles = await getRiskProfilesAction()
+  const countries = await getCountriesAction()
 
   return (
     <div className="space-y-6">
