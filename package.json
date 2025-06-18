@@ -1,0 +1,42 @@
+{
+  "name": "risk-module-mui",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@faker-js/faker": "latest",
+    "@hookform/resolvers": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@mui/material-pigment-css": "latest",
+    "@types/react": "latest",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "latest",
+    "lucide-react": "^0.454.0",
+    "next": "14.2.16",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-hook-form": "latest",
+    "react-hot-toast": "latest",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "14.0.0",
+    "postcss": "^8.5",
+    "typescript": "^5"
+  }
+}
