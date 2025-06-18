@@ -1,6 +1,9 @@
+"use client"
+
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import { createTheme } from "@mui/material/styles"
+import './globals.css'
 
 const theme = createTheme({
   palette: {
@@ -16,10 +19,6 @@ const theme = createTheme({
   },
 })
 
-export const metadata = {
-  generator: "v0.dev",
-}
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -32,6 +31,3 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-
-
-import './globals.css'
