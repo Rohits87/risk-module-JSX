@@ -1,15 +1,15 @@
+import type { RiskProfile, Country, Merchant, UserRole, RiskProfileStatus, RiskProfileParameters } from "./types"
 import { faker } from "@faker-js/faker"
-import { RiskProfileStatuses, UserRoles } from "./types"
 
-export const USER_ROLE = UserRoles.SUPER_ADMIN // Mock current user role
+export const USER_ROLE: UserRole = "Super-Admin" // Mock current user role. Change to "Maker" or "Checker" to test UI.
 
-// Mock Master Lists
-export const masterNegativeCountriesList = ["KP", "IR", "SY", "CU"]
-export const masterNegativeBINsList = ["400000", "500000", "600000"]
-export const masterNegativeIPsList = ["10.0.0.1", "192.168.0.1/24", "2001:db8::/32"]
-export const masterNegativeDomainsList = ["risky-domain.com", "another-bad-site.org"]
+// Mock Master Lists - In a real system, these would be managed globally
+export const masterNegativeCountriesList: string[] = ["KP", "IR", "SY", "CU"] // North Korea, Iran, Syria, Cuba
+export const masterNegativeBINsList: string[] = ["400000", "500000", "600000"]
+export const masterNegativeIPsList: string[] = ["10.0.0.1", "192.168.0.1/24", "2001:db8::/32"]
+export const masterNegativeDomainsList: string[] = ["risky-domain.com", "another-bad-site.org"]
 
-const createMockRiskProfileParameters = () => ({
+const createMockRiskProfileParameters = (): RiskProfileParameters => ({
   negativeCountries: faker.helpers.arrayElements(
     mockCountries.map((c) => c.code),
     faker.number.int({ min: 0, max: 3 }),
@@ -52,13 +52,8 @@ const createMockRiskProfileParameters = () => ({
     : undefined,
 })
 
-const createMockRiskProfile = (id, statusOverride) => {
-  const statusCycle = [
-    RiskProfileStatuses.PENDING_APPROVAL,
-    RiskProfileStatuses.ACTIVE,
-    RiskProfileStatuses.INACTIVE,
-    RiskProfileStatuses.REJECTED,
-  ]
+const createMockRiskProfile = (id: number, statusOverride?: RiskProfileStatus): RiskProfile => {
+  const statusCycle: RiskProfileStatus[] = ["Pending Approval", "Active", "Inactive", "Rejected"]
   const status = statusOverride || statusCycle[id % statusCycle.length]
 
   return {
@@ -76,17 +71,17 @@ const createMockRiskProfile = (id, statusOverride) => {
     version: faker.number.int({ min: 1, max: 5 }),
     auditLog: [
       { action: "created", userId: "user_abc", timestamp: faker.date.past({ years: 1 }).toISOString() },
-      ...(status !== RiskProfileStatuses.PENDING_APPROVAL
-        ? [{ action: "submitted", userId: "user_abc", timestamp: faker.date.past({ years: 1 }).toISOString() }]
+      ...(status !== "Pending Approval"
+        ? [{ action: "submitted", userId: "user_abc", timestamp: faker.date.past({ years: 1 }).toISOString() } as const]
         : []),
-      ...(status === RiskProfileStatuses.ACTIVE
-        ? [{ action: "approved", userId: "checker_xyz", timestamp: faker.date.recent().toISOString() }]
+      ...(status === "Active"
+        ? [{ action: "approved", userId: "checker_xyz", timestamp: faker.date.recent().toISOString() } as const]
         : []),
     ],
   }
 }
 
-const mockCountriesData = [
+const mockCountriesData: Country[] = [
   { code: "US", name: "United States" },
   { code: "CA", name: "Canada" },
   { code: "GB", name: "United Kingdom" },
@@ -108,11 +103,24 @@ const mockCountriesData = [
   { code: "CU", name: "Cuba" },
 ]
 
-const mockMerchantsData = Array.from({ length: 20 }, (_, i) => ({
+const mockMerchantsData: Merchant[] = Array.from({ length: 20 }, (_, i) => ({
   id: `merchant_${i + 1}`,
   name: faker.company.name(),
 }))
 
-export const mockCountries = mockCountriesData
-export const mockMerchants = mockMerchantsData
-export const mockRiskProfiles = Array.from({ length: 15 }, (_, i) => createMockRiskProfile(i + 1))
+export const mockCountries: Country[] = mockCountriesData
+export const mockMerchants: Merchant[] = mockMerchantsData
+
+const mockRiskProfiles: RiskProfile[] = Array.from({ length: 15 }, (_, i) => createMockRiskProfile(i + 1))
+
+export async function getRiskProfiles(): Promise<RiskProfile[]> {
+  return new Promise((resolve) => setTimeout(() => resolve(mockRiskProfiles), 500))
+}
+
+export async function getCountries(): Promise<Country[]> {
+  return new Promise((resolve) => setTimeout(() => resolve(mockCountries), 100))
+}
+
+export async function getMerchants(): Promise<Merchant[]> {
+  return new Promise((resolve) => setTimeout(() => resolve(mockMerchants), 100))
+}
