@@ -230,8 +230,15 @@ export default function RiskProfileListClient({ initialProfiles, countries }: Ri
 
     let updatedCount = 0
     const updatedProfiles = profiles.map((profile) => {
-      if (profile.status === "Active" || profile.status === "Inactive") {
+      if (profile && profile.status === "Active" || profile.status === "Inactive") {
         updatedCount++
+        
+        // Defensive check to ensure profile is a valid object before cloning
+        if (!profile || typeof profile !== 'object') {
+          console.warn('Invalid profile object encountered:', profile)
+          return profile
+        }
+
         const newProfile = JSON.parse(JSON.stringify(profile))
 
         const existingValues = new Set(newProfile.parameters[parameterType] || [])
