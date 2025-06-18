@@ -1,6 +1,13 @@
 import Link from "next/link"
 import { ArrowBack } from "@mui/icons-material"
 import { Box, Typography, Button } from "@mui/material"
+import { mockRiskProfiles } from "../../../../lib/actions.js"
+
+export async function generateStaticParams() {
+  return mockRiskProfiles.map((profile) => ({
+    id: profile.id.toString(),
+  }))
+}
 
 export default function ViewRiskProfilePage({ params }) {
   return (
